@@ -1,10 +1,34 @@
-# Getting Started with Create React App
+# Getting Started with Create React App on Docker
+
+ref: https://mherman.org/blog/dockerizing-a-react-app/
+
+# Build and tag the Docker image
+>docker build -t beacon:dev .
+
+# spin up the container
+docker run -it --rm -v ${PWD}:/app \
+    -v /app/node_modules \
+    -p 3001:3000 \
+    -e CHOKIDAR_USEPOLLING=true \
+    beacon:dev
+# The docker run command creates and runs a new container instance from the image we just created.
+-it starts the container in interactive mode. Why is this necessary? As of version 3.4.1, react-scripts exits after start-up (unless CI mode is specified) which will cause the container to exit. Thus the need for interactive mode.
+
+--rm removes the container and volumes after the container exits.
+-v ${PWD}:/app mounts the code into the container at “/app”.
+
+{PWD} may not work on Windows. See this Stack Overflow question for more info.
+
+Since we want to use the container version of the “node_modules” folder, we configured another volume: -v /app/node_modules. You should now be able to remove the local “node_modules” flavor.
+-p 3001:3000 exposes port 3000 to other Docker containers on the same network (for inter-container communication) and port 3001 to the host.
+
+For more, review this Stack Overflow question.
+
+Finally, -e CHOKIDAR_USEPOLLING=true enables a polling mechanism via chokidar (which wraps fs.watch, fs.watchFile, and fsevents) so that hot-reloading will work
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
-
-In the project directory, you can run:
 
 ### `npm start`
 
