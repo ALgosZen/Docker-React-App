@@ -19,7 +19,7 @@ docker run -it --rm -v ${PWD}:/app \
 --rm removes the container and volumes after the container exits.
 -v ${PWD}:/app mounts the code into the container at “/app”.
 
-{PWD} may not work on Windows. See this Stack Overflow question for more info.
+##{PWD} may not work on Windows. See this Stack Overflow question for more info.
 
 Since we want to use the container version of the “node_modules” folder, we configured another volume: -v /app/node_modules. You should now be able to remove the local “node_modules” flavor.
 -p 3001:3000 exposes port 3000 to other Docker containers on the same network (for inter-container communication) and port 3001 to the host.
