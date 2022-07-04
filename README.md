@@ -4,6 +4,8 @@ ref: https://mherman.org/blog/dockerizing-a-react-app/
 
 # Build and tag the Docker image
 >docker build -t beacon:dev .
+## NOTE to build image on an Apple M1 specify platform explictly since fargate doesnt have ARM support as of this date.
+docker buildx build --platform=linux/amd64 -t image-name:version .
 
 # spin up the container
 docker run -it --rm -v ${PWD}:/app \
